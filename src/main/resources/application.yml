@@ -1,0 +1,16 @@
+server:
+  port: 80
+spring:
+  application:
+    name: mergefiles
+  thymeleaf:
+    cache: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+      enabled: true
+      file-size-threshold: 20MB
+file:
+  staticAccessPath: /files/**
+  uploadFolder: /tmp/uploadfiles/ #/tmp/uploadfiles
