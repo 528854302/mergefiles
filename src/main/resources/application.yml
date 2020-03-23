@@ -13,4 +13,4 @@ spring:
       file-size-threshold: 20MB
 file:
   staticAccessPath: /files/**
-  uploadFolder: /tmp/uploadfiles/ #/tmp/uploadfiles
+  uploadFolder: d:/mytmp/ #/tmp/uploadfiles

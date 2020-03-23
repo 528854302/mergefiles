@@ -17,6 +17,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+/**
+ * 管理后台api
+ */
 @RestController
 @RequestMapping("/manage")
 public class MagnageFileController {
@@ -25,6 +28,11 @@ public class MagnageFileController {
     @Value("${file.uploadFolder}")
     private String uploadFolder;
 
+    /**
+     * 查询用户目录
+     * @return
+     * @throws FileNotFoundException
+     */
     @GetMapping("/listDir")
     public ResponseResult<ArrayList<UserDirDto>> listDir() throws FileNotFoundException {
         String path = uploadFolder;
@@ -35,6 +43,13 @@ public class MagnageFileController {
         }
         return new ResponseResult<>(dirs);
     }
+
+    /**
+     * 根据用户文件夹名查询该文件夹下的文件
+     * @param dir 用户文件夹名
+     * @return
+     * @throws FileNotFoundException
+     */
     @GetMapping("/getFilesByUserDir/{dir}")
     public ResponseResult<ArrayList<FileDto>> getFilesByUserDir(@PathVariable("dir")
                                                                 String dir) throws FileNotFoundException {
@@ -46,10 +61,16 @@ public class MagnageFileController {
         String baseUrl= request.getHeader("Referer").substring(0,request.getHeader("Referer").length()-"manage".length())
                 +"files/"+dir+"/";
 
-
-
         return new ResponseResult<>(FileToListByDir.convert(userDir,baseUrl));
     }
+
+    /**
+     * 根据文件名或文件夹名删除文件或文件夹
+     * @param name 文件名或文件夹名
+     * @param path  如果是文件夹，值为dir，如果是pdf文件，值为用户文件夹名称
+     * @return
+     * @throws FileNotFoundException
+     */
     @GetMapping("/delete/{name}/{path}")
     public ResponseResult<String> delete(@PathVariable("name") String name
                                         ,@PathVariable("path") String path) throws FileNotFoundException {
@@ -62,7 +83,6 @@ public class MagnageFileController {
             dir.delete();
             return new ResponseResult<>("dir");
         }else {
-
             new File(path1+"/"+path+"/"+name).delete();
             return new ResponseResult<>("file");
         }

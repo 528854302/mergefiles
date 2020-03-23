@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/***
+ *首页查询删除合并pdf文件api
+ */
 @RestController
 @RequestMapping("/file")
 public class FileContoller {
@@ -30,6 +33,12 @@ public class FileContoller {
     @Autowired
     private HttpServletRequest request;
     private String userdir;
+
+    /**
+     * 根据session中的userdir的值查询文件列表
+     * @return
+     * @throws FileNotFoundException
+     */
     @GetMapping("/list")
     public ResponseResult<List<FileDto>> listFiles() throws FileNotFoundException {
         userdir = (String)request.getSession().getAttribute("userdir");
@@ -46,6 +55,12 @@ public class FileContoller {
         return new ResponseResult(FileToListByDir.convert(dir,baseUrl));
     }
 
+    /**
+     * 根据文件名删除
+     * @param filename
+     * @return
+     * @throws FileNotFoundException
+     */
     @GetMapping("/remove/{file}")
     public ResponseResult remove(@PathVariable("file") String filename) throws FileNotFoundException {
         userdir = (String)request.getSession().getAttribute("userdir");
@@ -65,6 +80,12 @@ public class FileContoller {
         }
     }
 
+    /**
+     * 合并pdf
+     * @return
+     * @throws IOException
+     * @throws DocumentException
+     */
     @GetMapping("/merge")
     public ResponseResult merge() throws IOException, DocumentException {
         userdir = (String)request.getSession().getAttribute("userdir");

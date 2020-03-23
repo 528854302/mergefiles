@@ -7,25 +7,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 
+/**
+ * 根据url返回html页面
+ */
 @Controller
 public class IndexController {
-
+    /**
+     * 跳转首页
+     * @return
+     */
     @GetMapping("/index")
     public String index(){
         return "index";
     }
+
+    /**
+     * 跳转到后台页面
+     * @return
+     */
     @GetMapping("/manage")
     public String manage(){
         return "manage";
-    }
-    @GetMapping("/test")
-    public String test(Model model){
-        ArrayList list=new ArrayList();
-        for (int i=0;i<30;i++){
-            list.add(new FileDto("file"+i,"http://"+i));
-        }
-        model.addAttribute("list",list);
-        return "test";
     }
 
 }

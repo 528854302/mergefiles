@@ -15,12 +15,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * 文件上传业务逻辑
+ */
 @Service
 public class UploadService {
     @Value("${file.uploadFolder}")
     private String uploadFolder;
 
-    static Map<String,String>map = new HashMap<>();
+    /**
+     * 文件上传
+     * @param file
+     * @param request
+     * @return
+     */
     public ResponseResult upload(MultipartFile file, HttpServletRequest request) {
         String originalFileName = file.getOriginalFilename();
         String type = originalFileName.substring(originalFileName.length() - 4, originalFileName.length()).toLowerCase();
@@ -35,8 +43,6 @@ public class UploadService {
             session.setAttribute("userdir",userdir);
         }
         String path = null;
-//        path = Thread.currentThread().getContextClassLoader().getResource("").getPath()
-//                +"static/files/"+userdir;
         path=uploadFolder+"/"+userdir;
         File desFile = new File(path,originalFileName);
         if (!desFile.getParentFile().exists()){
@@ -47,6 +53,6 @@ public class UploadService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new ResponseResult("http://localhost/files/"+desFile.getName());
+        return new ResponseResult("/files/"+desFile.getName());
     }
 }
